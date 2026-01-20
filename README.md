@@ -30,6 +30,7 @@ This project implements a complete image processing workflow using OpenCV:
 L32_HomeWork/
 ├── input_image/              # Place input images here
 ├── output_images/            # Generated output images (created automatically)
+├── images/                   # Screenshots and images for README documentation
 ├── src/                      # Source modules
 │   ├── __init__.py          # Package init (1 line)
 │   ├── image_utils.py       # Image I/O operations (86 lines)
@@ -102,17 +103,17 @@ A complex city scene image processed through the basic FFT pipeline to demonstra
 
 **Input Image:**
 
-![City input image](simple%20run/input_image/city_image.png)
+![City input image](images/city_input.png)
 
 **FFT Magnitude Spectrum:**
 
-![FFT spectrum](simple%20run/output_images/step1_fft.png)
+![FFT spectrum](images/city_fft.png)
 
 *The bright center represents low frequencies (smooth areas), while the patterns radiating outward represent high frequencies (edges and details).*
 
 **High Pass Filter Result (Edge Detection):**
 
-![High pass result](simple%20run/output_images/step3_high_pass_filter_after_ifft.png)
+![High pass result](images/city_high_pass.png)
 
 *High pass filtering reveals only the edges - building outlines, windows, and structural details are preserved while smooth areas become black.*
 
@@ -124,11 +125,11 @@ A clean triangle image with clear edges - ideal case for triangle detection.
 
 **Input Image:**
 
-![Triangle input](simple%20triangle%20run/input_image/triangle.png)
+![Triangle input](images/triangle_input.png)
 
 **Final Triangle Detection:**
 
-![Triangle detected](simple%20triangle%20run/output_images/final_triangle_image.png)
+![Triangle detected](images/triangle_result.png)
 
 *The algorithm successfully detected all 3 vertices (red dots) and drew the triangle edges (green lines) accurately matching the original shape.*
 
@@ -140,17 +141,17 @@ A challenging image with a 3D triangle on a complex cosmic background - tests th
 
 **Input Image:**
 
-![Hard triangle input](hard%20triangle%20run/input_image/hard_triangle.png)
+![Hard triangle input](images/hard_triangle_input.png)
 
 **Binary Image (After Thresholding):**
 
-![Binary result](hard%20triangle%20run/output_images/binary_image.png)
+![Binary result](images/hard_triangle_binary.png)
 
 *The high pass filter + thresholding successfully isolated the triangle edges from the complex background.*
 
 **Final Triangle Detection:**
 
-![Hard triangle detected](hard%20triangle%20run/output_images/final_triangle_image.png)
+![Hard triangle detected](images/hard_triangle_result.png)
 
 *Despite the challenging input, the algorithm correctly detected all 3 vertices and drew the triangle outline, demonstrating the effectiveness of the line merging and vertex selection algorithms.*
 
@@ -166,11 +167,11 @@ When advanced mode starts, the program displays a histogram showing the distribu
 
 **Example Histogram (Hard Triangle):**
 
-![Histogram hard triangle](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.40.37.png)
+![Histogram hard triangle](images/histogram_hard.png)
 
 **Example Histogram (Simple Triangle):**
 
-![Histogram simple triangle](playing%20with%20threshold/Screenshot%202026-01-20%20at%2021.33.13.png)
+![Histogram simple triangle](images/histogram_simple.png)
 
 **How to read the histogram:**
 - **X-axis**: Pixel values from 0 (black) to 255 (white)
@@ -189,9 +190,9 @@ The program shows logs and lets you test different thresholds:
 
 **Terminal Log Example:**
 
-![Terminal logs](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.33.52.png)
+![Terminal logs](images/terminal_logs1.png)
 
-![More terminal logs](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.34.40.png)
+![More terminal logs](images/terminal_logs2.png)
 
 **Key information in logs:**
 - **Threshold value**: The cutoff you selected
@@ -202,19 +203,19 @@ The program shows logs and lets you test different thresholds:
 
 **Threshold too low (noisy):**
 
-![Too much noise](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.31.56.png)
+![Too much noise](images/threshold_noisy.png)
 
 *Too many black pixels - the background noise is being captured along with edges.*
 
 **Threshold just right (clean edges):**
 
-![Good threshold](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.32.33.png)
+![Good threshold](images/threshold_good.png)
 
 *Clean triangle edges with minimal noise - ideal for Hough Line detection.*
 
 **Threshold too high (losing edges):**
 
-![Threshold too high](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.32.46.png)
+![Threshold too high](images/threshold_high.png)
 
 *Very clean but may lose some edge detail - still acceptable.*
 
