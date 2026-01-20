@@ -8,6 +8,7 @@ A Python-based image processing pipeline that demonstrates Fourier Transform tec
 - [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Test Runs](#test-runs)
 - [Processing Flow](#processing-flow)
 - [Theoretical Background](#theoretical-background)
 - [Output Images](#output-images)
@@ -88,6 +89,142 @@ Includes interactive threshold selection and Hough Line Transform for triangle d
 ```bash
 python main.py input_image/triangle.png --advanced
 ```
+
+---
+
+## Test Runs
+
+Three test runs were performed to validate the pipeline functionality.
+
+### Test Run 1: Simple Run (City Image - Basic Mode)
+
+A complex city scene image processed through the basic FFT pipeline to demonstrate frequency filtering effects.
+
+**Input Image:**
+
+![City input image](simple%20run/input_image/city_image.png)
+
+**FFT Magnitude Spectrum:**
+
+![FFT spectrum](simple%20run/output_images/step1_fft.png)
+
+*The bright center represents low frequencies (smooth areas), while the patterns radiating outward represent high frequencies (edges and details).*
+
+**High Pass Filter Result (Edge Detection):**
+
+![High pass result](simple%20run/output_images/step3_high_pass_filter_after_ifft.png)
+
+*High pass filtering reveals only the edges - building outlines, windows, and structural details are preserved while smooth areas become black.*
+
+---
+
+### Test Run 2: Simple Triangle (Advanced Mode)
+
+A clean triangle image with clear edges - ideal case for triangle detection.
+
+**Input Image:**
+
+![Triangle input](simple%20triangle%20run/input_image/triangle.png)
+
+**Final Triangle Detection:**
+
+![Triangle detected](simple%20triangle%20run/output_images/final_triangle_image.png)
+
+*The algorithm successfully detected all 3 vertices (red dots) and drew the triangle edges (green lines) accurately matching the original shape.*
+
+---
+
+### Test Run 3: Hard Triangle (Advanced Mode)
+
+A challenging image with a 3D triangle on a complex cosmic background - tests the robustness of edge detection.
+
+**Input Image:**
+
+![Hard triangle input](hard%20triangle%20run/input_image/hard_triangle.png)
+
+**Binary Image (After Thresholding):**
+
+![Binary result](hard%20triangle%20run/output_images/binary_image.png)
+
+*The high pass filter + thresholding successfully isolated the triangle edges from the complex background.*
+
+**Final Triangle Detection:**
+
+![Hard triangle detected](hard%20triangle%20run/output_images/final_triangle_image.png)
+
+*Despite the challenging input, the algorithm correctly detected all 3 vertices and drew the triangle outline, demonstrating the effectiveness of the line merging and vertex selection algorithms.*
+
+---
+
+### Threshold Selection Guide
+
+The threshold selection process is interactive and relies on analyzing the pixel value distribution histogram.
+
+#### Step 1: Analyze the Histogram
+
+When advanced mode starts, the program displays a histogram showing the distribution of pixel values (0-255) in the high-pass filtered image:
+
+**Example Histogram (Hard Triangle):**
+
+![Histogram hard triangle](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.40.37.png)
+
+**Example Histogram (Simple Triangle):**
+
+![Histogram simple triangle](playing%20with%20threshold/Screenshot%202026-01-20%20at%2021.33.13.png)
+
+**How to read the histogram:**
+- **X-axis**: Pixel values from 0 (black) to 255 (white)
+- **Y-axis**: Frequency (count of pixels with that value)
+- **Large peak near 0**: Background pixels (black/dark areas after high-pass filter)
+- **Smaller values in higher range**: Edge pixels (the triangle edges we want to detect)
+
+**Choosing a good threshold:**
+- Look for where the main peak (background) ends
+- Choose a value just after the peak drops off
+- Typical range: 10-50 for well-defined edges, higher for noisy images
+
+#### Step 2: Interactive Threshold Testing
+
+The program shows logs and lets you test different thresholds:
+
+**Terminal Log Example:**
+
+![Terminal logs](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.33.52.png)
+
+![More terminal logs](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.34.40.png)
+
+**Key information in logs:**
+- **Threshold value**: The cutoff you selected
+- **Black pixels %**: Edges (should be ~95-99% for clean detection)
+- **White pixels %**: Background (should be ~1-5%)
+
+#### Step 3: Evaluate Binary Image Output
+
+**Threshold too low (noisy):**
+
+![Too much noise](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.31.56.png)
+
+*Too many black pixels - the background noise is being captured along with edges.*
+
+**Threshold just right (clean edges):**
+
+![Good threshold](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.32.33.png)
+
+*Clean triangle edges with minimal noise - ideal for Hough Line detection.*
+
+**Threshold too high (losing edges):**
+
+![Threshold too high](playing%20with%20threshold/Screenshot%202026-01-20%20at%2020.32.46.png)
+
+*Very clean but may lose some edge detail - still acceptable.*
+
+#### Threshold Selection Summary
+
+| Threshold Value | Effect | When to Use |
+|-----------------|--------|-------------|
+| Low (5-15) | More black pixels, may include noise | Simple images with clear contrast |
+| Medium (20-50) | Balanced edge detection | Most images |
+| High (60-100+) | Fewer edges, cleaner but may miss details | Noisy or complex backgrounds |
 
 ---
 
